@@ -195,3 +195,24 @@ struct fortune {
         }
     }
 };
+
+int main() {
+    int n = 10;
+    cin >> n;
+    vector<pt> p(n);
+    // Generate random points
+    rep(i, 0, n) {
+        p[i] = pt(rand() % 100, rand() % 100);
+    }
+    cout << "Points:\n";
+    for(auto [x, y] : p) {
+        cout << x << ' ' << y << '\n';
+    }
+    fortune F(p);
+    F.solve();
+    cout << "#Edges: " << sz(F.edges) << '\n';
+    for(auto [a, b] : F.edges) {
+        cout << a << ' ' << b << '\n';
+    }
+    return 0;
+}
