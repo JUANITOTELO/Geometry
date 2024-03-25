@@ -1006,20 +1006,27 @@ struct Site * VoronoiDiagramGenerator::nextone()
 }
 
 extern "C"{
-    void voronoiDiagramWrapper(float *xValues, float *yValues, int numValues, float minX, float maxX, float minY, float maxY, float minDistanceBetweenSites, GraphEdge **edges, int *numEdges){
+    float* voronoiDiagramWrapper(float *xValues, float *yValues, int numValues, float minX, float maxX, float minY, float maxY, float minDistanceBetweenSites, GraphEdge **edges, int *numEdges){
         VoronoiDiagramGenerator vdg;
 
+		printf("Generating Voronoi diagram from C++!\n");
         vdg.generateVoronoi(xValues, yValues, numValues, minX, maxX, minY, maxY, minDistanceBetweenSites);
 
         vdg.resetIterator();
 
         float x1,y1,x2,y2;
-
-        printf("\n-------------------------------\n");
-        while(vdg.getNext(x1,y1,x2,y2))
-        {
-            printf("GOT Line (%f,%f)->(%f,%f)\n",x1,y1,x2, y2);
-            
+		float *result = (float*)malloc(sizeof(float)*4*numValues*1000);
+		int c = 1;
+        // printf("\n-------------------------------\n");
+        while(vdg.getNext(x1,y1,x2,y2)){
+			// printf("Edge: (%f,%f) -> (%f,%f)\n",x1,y1,x2,y2);
+			result[c++] = x1;
+			result[c++] = y1;
+			result[c++] = x2;
+			result[c++] = y2;
         }
+		// Add total number of edges to the first element
+		result[0] = c/4;
+		return result;
     }
 } 
