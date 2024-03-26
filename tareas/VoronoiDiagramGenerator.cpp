@@ -1015,7 +1015,7 @@ extern "C"{
         vdg.resetIterator();
 
         float x1,y1,x2,y2;
-		float *result = (float*)malloc(sizeof(float)*4*numValues*1000);
+		float *result = (float*)malloc(sizeof(float)*4*(3*numValues-6));
 		int c = 1;
         // printf("\n-------------------------------\n");
         while(vdg.getNext(x1,y1,x2,y2)){
